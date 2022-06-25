@@ -1,0 +1,264 @@
+.media_box img{
+	width:100%;
+	height:100%
+}
+
+.pagination{
+    text-align: center;
+    justify-content: right;
+}
+
+.page-item span{
+    width: 4rem;
+    height: 4rem;
+    color: var(--text-48);
+    border: 1px solid var(--text-e2);
+    font-size: 2rem;
+}
+
+.page-item a{
+    width: 4rem;
+    height: 4rem;
+    color: var(--text-48);
+    border: 1px solid var(--text-e2);
+    font-size: 2rem;
+}
+
+.fade{
+    opacity: 1!important;
+}
+
+.toast-message{
+    color: white;
+    opacity: 1;
+    font-size: 16px;
+}
+
+.btn.btn-outline.red-mint {
+    border-color: #e43a45;
+    color: #e43a45;
+    background: 0 0;
+    font-size: 1.5rem;
+}
+
+.btn.btn-outline.red-mint:hover {
+    border-color: #e43a45;
+    color: #fff;
+    background-color: #e43a45;
+}
+
+.btn.btn-outline.green-sharp {
+    border-color: #2ab4c0;
+    color: #2ab4c0;
+    background: 0 0;
+    font-size: 1.5rem;
+}
+
+.btn.btn-outline.green-sharp.active, .btn.btn-outline.green-sharp:active, .btn.btn-outline.green-sharp:active:focus, .btn.btn-outline.green-sharp:active:hover, .btn.btn-outline.green-sharp:focus, .btn.btn-outline.green-sharp:hover {
+    border-color: #2ab4c0;
+    color: #FFF;
+    background-color: #2ab4c0;
+}
+
+.text-end{
+    padding-right: 1.5rem!important;
+}
+
+.client-view-logo{
+    width: 200px;
+    height: 50px;
+    /* background-color: black; */
+}
+
+.error{
+    color: #D9214E!important;
+}
+
+.error-border{
+    border: 1px solid #D9214E!important;
+}
+
+.font-15rem{
+    font-size: 1.5rem!important;
+}
+
+.form_control_helper a{
+    color: #3281be!important;
+}
+
+.alert-danger{
+    color: #D9214E!important;
+}
+
+.alert-danger b{
+    color: #D9214E!important;
+}
+
+.staff_table thead .rows_1 th:nth-child(4) {
+    width: 10rem!important;
+}
+
+.staff_table thead .rows_1 th:nth-child(6) {
+    width: 15rem!important;
+}
+
+.reset-password{
+    color: #3281be!important;
+}
+
+.has-error label{
+    color: #D9214E!important;
+}
+
+.has-error span{
+    color: #D9214E!important;
+}
+
+.has-error-input{
+    border : 1px solid #D9214E!important;
+}
+
+.staff_list_table_wrapper .staff_table thead .staff_table_sm_rows.rows_resizer th:nth-child(3) {
+    width: 100rem;
+}
+
+.staff_list_table_wrapper .staff_table thead .staff_table_sm_rows.rows_resizer th:nth-child(4) {
+    width: 100rem;
+}
+
+.special-role{
+    width: 40%;
+    color: white;
+    background-color: #F93154;
+    padding: 5px;
+}
+
+.form_container .form_table {
+    /* max-width: 100rem!important; */
+}
+
+.width-20rem{
+    width: 20rem!important;
+}
+
+.font-weight-bold .text-nowrap{
+    width: 20rem!important;
+}
+
+.width-35rem{
+    width: 35rem;
+}
+
+.table tbody tr{
+    vertical-align: middle;
+}
+
+.mt-100{
+    margin-top: 100px;
+}
+
+.lp-0{
+    padding-left: 0px!important;
+}
+
+.navbar .navbar_list a.primary_link {
+    font-size: 1.4rem!important;
+    color: var(--text-5b) !important;
+}
+
+.news-table-tbody tbody tr td:first-child{
+    width: 20rem;
+}
+
+.news-table-tbody tbody tr td:nth-child(2){
+    width: 15rem;
+}
+
+.news-table-tbody tbody tr td:nth-child(4){
+    width: 14rem;
+}
+
+.news-table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.news-table-tbody tbody tr td a{
+    color: black;
+}
+
+.news-table-tbody tbody tr td a:hover{
+    color: #1266f1;
+    text-decoration: underline;
+}
+
+.color-f2{
+    color: #00abf2;
+}
+
+.color-47{
+    color: #8fb247;
+}
+
+.mt-40{
+    margin-top: 40px;
+}
+
+.w-400{
+    width:450px;
+}
+
+.w_220{
+    width : 22rem!important;
+}
+
+.text_bold{
+    font-weight: bolder;
+}
+
+
+/* @media screen and (min-width : 200px){
+    .table_body_wrapper{
+        height: 255px;
+    }
+
+    .tableTabWrapper{
+        height: 260px;
+    }
+}
+
+@media screen and (max-width : 201px){
+    .table_body_wrapper{
+        height: auto;
+    }
+
+    .tableTabWrapper{
+        height: auto;
+    }
+} */
+
+
+.kokoro_list th:first-child{
+    width: 15rem!important;
+}
+
+.kokoro_list th:nth-child(2){
+    width: 15rem!important;
+}
+
+.kokoro_list th:nth-child(3){
+    width: 130rem!important;
+}
+
+.kokoro_list th:nth-child(4){
+    width: 10rem!important;
+}
+
+.kokoro_list th:nth-child(6){
+    width: 20rem!important;
+}
+
+
+.btn_green{
+    width: 12rem!important;
+}
