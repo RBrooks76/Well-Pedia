@@ -553,63 +553,72 @@ class ClientController extends Controller
                     'password'          => 'required|alpha_num|min:8|max:12',
                 ], $this->message);
 
-        $verify_staff_number = Staff::where('staff_number', $valid['staff_number'])->first();
+        $verify_company_code = Client::where('company_code', $_SESSION['company_code'])->first();
+        $verify_staff_number_sql = "SELECT id ".
+                                "FROM (SELECT * FROM tbl_staff Where staff_number != " . $request->self_staff_number . " ) as a ".
+                                "WHERE a.staff_number = " . $valid['staff_number'];
+        $verify_staff_number = DB::select($verify_staff_number_sql);
 
-        if($verify_staff_number){
-            return redirect()->route('toClientMain')->with('error-message', '編集しようとしているスタッフ番号はすでに存在します。再試行。');
+        $company_code = Staff::where('id', $request->id)->first('company_code');
+        $staff_number = Staff::where('id', $request->id)->first('staff_number');
+
+        if(!$verify_company_code){
+            return redirect()->route('toAdminStaff')->with('error-message', '編集しようとしている会社コードが存在しません。 リトライ。');
         } else {
-            $company_code = Staff::where('id', $request->id)->first('company_code');
-            $staff_number = Staff::where('id', $request->id)->first('staff_number');
+            if($verify_staff_number){
+                return redirect()->route('toAdminStaff')->with('error-message', '編集しようとしているスタッフ番号はすでに存在します。再試行。');
+            } else {
 
-            Health::where('company_code', $company_code['company_code'])
-                    ->where('staff_number', $staff_number['staff_number'])
-                    ->update([
-                        'company_code'          => $_SESSION['company_code'],
-                        'staff_number'          => $valid['staff_number'],
-                        'height'                => $request->height == null ? '' : $request->height,
-                        'weight'                => $request->weight == null ? '' :  $request->weight,
-                        'blood_type'            => $request->blood_type == null ? '' : $request->blood_type,
-                        'bmi'                   => $request->bmi  == null ? '' : $request->bmi,
-                        'body_hole'             => $request->body_hole  == null ? '' : $request->body_hole,
-                        'blood_pressure_over'   => $request->blood_pressure_over  == null ? '' : $request->blood_pressure_over,
-                        'blood_pressure_down'   => $request->blood_pressure_down  == null ? '' : $request->blood_pressure_down,
-                        'tp'                    => $request->tp  == null ? '' : $request->tp,
-                        'alb'                   => $request->alb  == null ? '' : $request->alb,
-                        'ast'                   => $request->ast  == null ? '' : $request->ast,
-                        'alt'                   => $request->alt  == null ? '' : $request->alt,
-                        'gtp'                   => $request->gtp  == null ? '' : $request->gtp,
-                        'tc'                    => $request->tc  == null ? '' : $request->tc,
-                        'hdl'                   => $request->hdl  == null ? '' : $request->hdl,
-                        'ldl'                   => $request->ldl  == null ? '' : $request->ldl,
-                        'tg'                    => $request->tg  == null ? '' : $request->tg,
-                        'bun'                   => $request->bun  == null ? '' : $request->bun,
-                        'cre'                   => $request->cre  == null ? '' : $request->cre,
-                        'ua'                    => $request->ua  == null ? '' : $request->ua,
-                        'glu'                   => $request->glu  == null ? '' : $request->glu,
-                        'hba1c'                 => $request->hba1c  == null ? '' : $request->hba1c,
-                        'sight_left'            => $request->sight_left  == null ? '' : $request->sight_left,
-                        'sight_right'           => $request->sight_right  == null ? '' : $request->sight_right,
+                Health::where('company_code', $company_code['company_code'])
+                        ->where('staff_number', $staff_number['staff_number'])
+                        ->update([
+                            'company_code'          => $_SESSION['company_code'],
+                            'staff_number'          => $valid['staff_number'],
+                            'height'                => $request->height == null ? '' : $request->height,
+                            'weight'                => $request->weight == null ? '' :  $request->weight,
+                            'blood_type'            => $request->blood_type == null ? '' : $request->blood_type,
+                            'bmi'                   => $request->bmi  == null ? '' : $request->bmi,
+                            'body_hole'             => $request->body_hole  == null ? '' : $request->body_hole,
+                            'blood_pressure_over'   => $request->blood_pressure_over  == null ? '' : $request->blood_pressure_over,
+                            'blood_pressure_down'   => $request->blood_pressure_down  == null ? '' : $request->blood_pressure_down,
+                            'tp'                    => $request->tp  == null ? '' : $request->tp,
+                            'alb'                   => $request->alb  == null ? '' : $request->alb,
+                            'ast'                   => $request->ast  == null ? '' : $request->ast,
+                            'alt'                   => $request->alt  == null ? '' : $request->alt,
+                            'gtp'                   => $request->gtp  == null ? '' : $request->gtp,
+                            'tc'                    => $request->tc  == null ? '' : $request->tc,
+                            'hdl'                   => $request->hdl  == null ? '' : $request->hdl,
+                            'ldl'                   => $request->ldl  == null ? '' : $request->ldl,
+                            'tg'                    => $request->tg  == null ? '' : $request->tg,
+                            'bun'                   => $request->bun  == null ? '' : $request->bun,
+                            'cre'                   => $request->cre  == null ? '' : $request->cre,
+                            'ua'                    => $request->ua  == null ? '' : $request->ua,
+                            'glu'                   => $request->glu  == null ? '' : $request->glu,
+                            'hba1c'                 => $request->hba1c  == null ? '' : $request->hba1c,
+                            'sight_left'            => $request->sight_left  == null ? '' : $request->sight_left,
+                            'sight_right'           => $request->sight_right  == null ? '' : $request->sight_right,
 
-                    ]);
+                        ]);
 
-            $result = Staff::where('id', $request->id)
-                    ->update([
-                        'company_code'      => $request->company_code,
-                        'staff_number'      => $valid['staff_number'],
-                        'deploy'            => $valid['deploy'] == '' ? '' : $valid['deploy'],
-                        'first_name'        => $valid['first_name'],
-                        'last_name'         => $valid['last_name'],
-                        'gender'            => $valid['gender'],
-                        'birth_year'        => $valid['birth_year'],
-                        'birth_month'       => $valid['birth_month'],
-                        'birth_day'         => $valid['birth_day'],
-                        'email'             => $valid['email'],
-                        'password'          => $valid['password'],
-                        // 'final_login_date'  => $formattedTime,
-                    ]);
+                $result = Staff::where('id', $request->id)
+                        ->update([
+                            'company_code'      => $request->company_code,
+                            'staff_number'      => $valid['staff_number'],
+                            'deploy'            => $valid['deploy'] == '' ? '' : $valid['deploy'],
+                            'first_name'        => $valid['first_name'],
+                            'last_name'         => $valid['last_name'],
+                            'gender'            => $valid['gender'],
+                            'birth_year'        => $valid['birth_year'],
+                            'birth_month'       => $valid['birth_month'],
+                            'birth_day'         => $valid['birth_day'],
+                            'email'             => $valid['email'],
+                            'password'          => $valid['password'],
+                            // 'final_login_date'  => $formattedTime,
+                        ]);
 
-            if($result){
-                return redirect()->route('toClientMain');
+                if($result){
+                    return redirect()->route('toClientMain');
+                }
             }
         }
     }

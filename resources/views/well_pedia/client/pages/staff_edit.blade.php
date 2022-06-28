@@ -78,6 +78,7 @@
         <form class="" action="{{ route('onClientStaffEdit') }}" method="POST">
             @csrf
             <input type="hidden" name="id" value="{{ $staff->id }}">
+            <input type="hidden" name="self_staff_number" value="{{ $staff->staff_number}}">
             <section>
                 <div class="section_container container_left_helper container_right_helper">
                     <div class="form_container mb-2 table-responsive  pb-1 ">
