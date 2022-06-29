@@ -172,11 +172,13 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="content_footer">
-                                <button class="btn_primary min_sizer" onclick="onUploadCSV()">
+                            <form class="content_footer" action="{{ route('onDownloadCSV') }}" method="post" class="">
+                                @csrf
+                                {{-- <button class="btn_primary min_sizer" onclick="onDownloadCSV()"> --}}
+                                <button class="btn_primary min_sizer">
                                     インポートを実行する
                                 </button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -479,6 +481,19 @@
                     }
                 });
             }
+        }
+
+        function onDownloadCSV(){
+            $.ajax({
+                url: "{{ route('onDownloadCSV') }}",
+                type : "POST",
+                data : {
+
+                },
+                success:function(result){
+                    toastr.success("SUCCESS!");
+                }
+            })
         }
     </script>
     @include('well_pedia.admin.layout.after_login.footer')

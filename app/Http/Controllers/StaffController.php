@@ -16,6 +16,7 @@ use App\Client;
 use App\Health;
 use App\Kokoro;
 use DateTime;
+use Mockery\Undefined;
 
 class StaffController extends Controller
 {
@@ -149,10 +150,11 @@ class StaffController extends Controller
                             ->first();
         $is_staff = Staff::where('staff_number', $valid['staff_number'])
                         ->first();
+
         if($is_company){
             if(!$is_staff){
-                // $filename= 'staff'. '-' .$valid['company_code'] . '-' . $valid['staff_number'];
 
+                // $filename= 'staff'. '-' .$valid['company_code'] . '-' . $valid['staff_number'];
                 // header('Content-Type: text/csv; charset=utf-8');
                 // header('Content-Disposition: attachment; filename= ' . $filename . '.csv');
                 // $output = fopen("php://output", "w");
@@ -175,8 +177,10 @@ class StaffController extends Controller
 
                 // fputcsv($output, $linedata);
                 // fclose($output);
+
                 $d = strtotime("now");
                 $date = date("Y-m-d h:i:s", $d);
+
                 Staff::create([
                         // 'company_name'      => $valid['company_name'],
                         'company_code'      => $valid['company_code'],
@@ -222,7 +226,7 @@ class StaffController extends Controller
 
                 ]);
 
-                return redirect()->route('toAdminStaff');
+                // return redirect()->route('toAdminStaff');
             } else {
                 return redirect()->route('toAdminStaffRegister')->with('error-message', '登録しようとしているスタッフ番号はすでに存在します。再試行。');
             }
@@ -525,7 +529,6 @@ class StaffController extends Controller
 
     // The Function to Edit
     public function edit(Request $request){
-        // return $request->id;
         $valid = $request->validate([
                     'company_code'      => 'required|digits:8',
                     'staff_number'      => 'required|digits:8',
@@ -605,7 +608,75 @@ class StaffController extends Controller
         }
     }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////// Admin Download CSV ////////////////////
+    public function onDownloadCSV(Request $request){
+        $csv_content = [];
+        $y = date('Y');
+        $m = date('m');
+        $d = date('d');
+
+        $filename= $y . '-' . $m .'-'. $d ;
+
+        header("Content-Description: File Transfer");
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename= ' . $filename . '.csv');
+
+        $output = fopen("php://output", "w");
+        $fields = array('company_code', 'staff_number', 'deploy', 'first_name', 'last_name', 'gender', 'birth_year', 'birth_month', 'birth_day', 'email', 'password', '身長', '体重', '血液型', 'BMI', '腹囲', '⾎圧値・上', '⾎圧値・下', '総タンパク(TP)', 'アルブミン(ALB)', 'AST(GOT)', 'ALT(GPT)', 'γ-GT(γ-GTP)', '総コレステロール(TC)', 'HDL-コレステロール', 'LDL-コレステロール', '中性脂肪(TG)', '尿素窒素(BUN)', 'クレアチニン(CRE)', '尿酸(UA)', '血糖(GLU)', 'ヘモグロビンA1c(HbA1c)', '視力（左）', '視力（右）');
+        fputcsv($output, $fields);
+
+        $result = Staff::orderBy('company_code', 'ASC')->orderBy('staff_number', 'ASC')->get();
+        $health = Health::orderBy('company_code', 'ASC')->orderBy('staff_number', 'ASC')->get();
+
+        if($result != null){
+            foreach($result as $item){
+                foreach($health as $data){
+                    if($item['company_code'] == $data['company_code'] && $item['staff_number'] == $data['staff_number']){
+                        $linedata = array(
+                            $item['company_code'],
+                            $item['staff_number'],
+                            $item['deploy'] == null ? '123' : $item['deploy'],
+                            $item['first_name'],
+                            $item['last_name'],
+                            $item['gender'],
+                            $item['birth_year'],
+                            $item['birth_month'],
+                            $item['birth_day'],
+                            $item['email'],
+                            $item['password'],
+                            $data['height'],
+                            $data['weight'],
+                            $data['blood_type'],
+                            $data['bmi'],
+                            $data['body_hole'],
+                            $data['blood_pressure_over'],
+                            $data['blood_pressure_down'],
+                            $data['tp'],
+                            $data['alb'],
+                            $data['ast'],
+                            $data['alt'],
+                            $data['gtp'],
+                            $data['tc'],
+                            $data['hdl'],
+                            $data['ldl'],
+                            $data['tg'],
+                            $data['bun'],
+                            $data['cre'],
+                            $data['ua'],
+                            $data['glu'],
+                            $data['hba1c'],
+                            $data['sight_left'],
+                            $data['sight_right']
+                        );
+                        fputcsv($output, $linedata);
+                    }
+                }
+            }
+        }
+        fclose($output);
+    }
+
+////////////////////////////////////////////////////////////////////////// USER ///////////////////////////////////////////////////////////////////////////////////
     // User Login
     public function toUserLogin(Request $request){
         $page_title = "ログインページ";

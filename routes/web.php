@@ -98,6 +98,7 @@ Route::post('/admin_staff_search',          'StaffController@onAdminStaffSearch'
 Route::post('/admin_staff_clear',           'StaffController@onAdminStaffSearchClear')              ->name('onAdminStaffSearchClear');
 Route::post('/admin_staff_csv',             'StaffController@onAdminStaffCSVUpload')                ->name('onAdminStaffCSVUpload');
 Route::post('/admin_staff_csv_register',    'StaffController@onAdmiStaffRegisterUploadCSV')         ->name('onAdmiStaffRegisterUploadCSV');
+Route::post('/admin_staff_download_csv',    'StaffController@onDownloadCSV')                        ->name('onDownloadCSV');;
 
 /////////////////// News ///////////////////
 

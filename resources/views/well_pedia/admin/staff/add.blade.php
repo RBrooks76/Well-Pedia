@@ -54,9 +54,12 @@
                                 </ul>
                             </div>
                             <div class="content_footer">
-                                <button class="btn_primary min_sizer" onclick="onAdmiStaffRegisterUploadCSV()">
+                                <button class="btn_primary min_sizer" onclick="onDownload()">
                                     インポートを実行する
                                 </button>
+                                <a href="javascript:void(0)" id="dlbtn" style="display: none;">
+                                    <button type="button" id="mine">Export</button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -561,6 +564,28 @@
             //         }
             //     });
             // }
+        }
+
+        function onDownload(){
+            $.ajax({
+                url: "{{ route('onDownloadCSV') }}",
+                type : "POST",
+                success:function(result){
+                    console.log(result);
+                    setTimeout(function() {
+                        var dlbtn = document.getElementById("dlbtn");
+                        var file = new Blob([result], {type: 'text/csv'});
+                        dlbtn.href = URL.createObjectURL(file);
+
+                        const d = new Date();
+                        var year = d.getFullYear();
+                        var month = d.getMonth() + 1 > 10 ? d.getMonth() + 1 : '0' + (d.getMonth() + 1);
+                        var day = d.getDate() > 10 ? d.getDate() : '0' + d.getDate();
+                        dlbtn.download = year + "-" + month + "-" + day + '.csv';
+                        $( "#mine").click();
+                    }, 1000);
+                }
+            })
         }
 
     </script>
