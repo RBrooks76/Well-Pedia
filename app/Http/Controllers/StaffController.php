@@ -150,7 +150,6 @@ class StaffController extends Controller
                             ->first();
         $is_staff = Staff::where('staff_number', $valid['staff_number'])
                         ->first();
-
         if($is_company){
             if(!$is_staff){
 
@@ -196,7 +195,6 @@ class StaffController extends Controller
                         'password'          => $valid['password'],
                         'final_login_date'  => $date,
                 ]);
-
                 Health::create([
                     'company_code'          => $valid['company_code'],
                     'staff_number'          => $valid['staff_number'],
@@ -226,7 +224,7 @@ class StaffController extends Controller
 
                 ]);
 
-                // return redirect()->route('toAdminStaff');
+                return redirect()->route('toAdminStaff');
             } else {
                 return redirect()->route('toAdminStaffRegister')->with('error-message', '登録しようとしているスタッフ番号はすでに存在します。再試行。');
             }
