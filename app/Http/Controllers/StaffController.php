@@ -221,7 +221,6 @@ class StaffController extends Controller
                     'hba1c'                 => $request->hba1c  == null ? '' : $request->hba1c,
                     'sight_left'            => $request->sight_left  == null ? '' : $request->sight_left,
                     'sight_right'           => $request->sight_right  == null ? '' : $request->sight_right,
-
                 ]);
 
                 return redirect()->route('toAdminStaff');
