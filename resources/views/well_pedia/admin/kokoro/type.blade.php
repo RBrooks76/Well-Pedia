@@ -19,6 +19,11 @@
                     <b>{{ Session::get('success-message') }}</b>
                 </div>
             @endif
+            @if(Session::has('error-message'))
+                <div class="alert alert-danger text-center">
+                    <b>{{ Session::get('error-message') }}</b>
+                </div>
+            @endif
             <form action="{{ route('onAdminAddKokoroType') }}" method="post" class="">
                 @csrf
                 <div class="form_container  table-responsive  pb-1">
@@ -45,7 +50,7 @@
                                     <div class="form-group w_220">
                                         <input type="text" class="form-control" name="priority" value="{{ old('priority') }}" onchange="onChangeEmail(this)" style="{{ $errors->has('priority') ? 'border : 1px solid #D9214E!important;' : '' }}">
                                     </div>
-                                    <div class="w-400" style="{{ $errors->has('priority') ? 'color:#D9214E!important' : '' }}">FROM 3 ~~~~~</div>
+                                    {{-- <div class="w-400" style="{{ $errors->has('priority') ? 'color:#D9214E!important' : '' }}">３から始めましょう。</div> --}}
                                     @if($errors->has('priority'))
                                         <div class="w-400" style="{{ $errors->has('priority') ? 'color:#D9214E!important' : '' }}">{{ $errors->first('priority') }}</div>
                                     @endif

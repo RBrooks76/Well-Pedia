@@ -16,6 +16,7 @@
                         <b>{{ Session::get('success-message') }}</b>
                     </div>
                 @endif
+
                 <form action="{{ route('onAdminKokoroRegister') }}" method="post" class="" id="form_data">
                     @csrf
                     <div class="form_container  table-responsive  pb-1 align_baseline">
@@ -66,18 +67,18 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="form-group me-3 d-flex align-items-center form_checkbox_label_group">
+                                            {{-- <div class="form-group me-3 d-flex align-items-center form_checkbox_label_group">
                                                 <input type="radio" checked name="type" id="form_checkbox1" value="1">
                                                 <label for="form_checkbox1" class="ms-2">ジャンル1</label>
                                             </div>
                                             <div class="form-group  me-3  d-flex align-items-center form_checkbox_label_group">
                                                 <input type="radio" name="type" id="form_checkbox2" value="2">
                                                 <label for="form_checkbox2" class="ms-2">ジャンル2</label>
-                                            </div>
+                                            </div> --}}
                                             @foreach($types as $type)
                                                 <div class="form-group  me-3  d-flex align-items-center form_checkbox_label_group">
-                                                    <input type="radio" name="type" id="form_checkbox2" value="{{$type->priority}}">
-                                                    <label for="form_checkbox2" class="ms-2">{{$type->name}}</label>
+                                                    <input type="radio" name="type" id="form_checkbox{{$type->priority}}" value="{{$type->priority}}">
+                                                    <label for="form_checkbox{{$type->priority}}" class="ms-2">{{$type->name}}</label>
                                                 </div>
                                             @endforeach
                                         </div>

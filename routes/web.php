@@ -93,7 +93,7 @@ Route::get('/admin/staff/add', 	            'StaffController@toAdd')            
 Route::post('/admin_staff_register',	    'StaffController@register')			                    ->name('onStaffRegister');
 Route::get( '/admin_getStaffs',			    'StaffController@getStaffs')		                    ->name('getStaffs');
 Route::post('/admin_staff_edit',		    'StaffController@edit')			                        ->name('staffEdit');
-Route::post('/admin_staff_delete',		    'StaffController@onDeleteCheckedStaff')                 ->name('onDeleteCheckedStaff');
+Route::post('/admin_staff_delete',		    'StaffController@onAdminDeleteCheckedStaff')            ->name('onAdminDeleteCheckedStaff');
 Route::post('/admin_staff_search',          'StaffController@onAdminStaffSearch')                   ->name('onAdminStaffSearch');
 Route::post('/admin_staff_clear',           'StaffController@onAdminStaffSearchClear')              ->name('onAdminStaffSearchClear');
 Route::post('/admin_staff_csv',             'StaffController@onAdminStaffCSVUpload')                ->name('onAdminStaffCSVUpload');

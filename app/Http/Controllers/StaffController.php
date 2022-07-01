@@ -90,8 +90,10 @@ class StaffController extends Controller
     }
 
     // The Function to delete
-    public function onDeleteCheckedStaff(Request $request){
+    public function onAdminDeleteCheckedStaff(Request $request){
         for($i = 0; $i < count($request->ids); $i++){
+            $health = Staff::where('id', $request->ids[$i])->first();
+            if($health) Health::where('staff_number', $health['staff_number'])->where('company_code', $health['company_code'])->delete();
             Staff::where('id', $request->ids[$i])->delete();
             VideoHistory::where('staff_number', $request->ids[$i])->delete();
         }
@@ -346,6 +348,15 @@ class StaffController extends Controller
         }
     }
 
+    // Function to add 0 symbol
+    public function onAddZeroMark($item){
+        $zero = '';
+        for($i = 0; $i < 8 - strlen($item); $i++){
+            $zero .= '0';
+        }
+        return $zero . $item;
+    }
+
     // The Function to
     public function onAdmiStaffRegisterUploadCSV(Request $request){
         $fileName = $_FILES["file"]["tmp_name"];
@@ -354,86 +365,265 @@ class StaffController extends Controller
             $file = fopen($fileName, "r");
             $cnt = 0;
             $nn = 0;
+            $num = 0;
             while (($column = fgetcsv($file, 10000, ",")) !== FALSE) {
-
-                $company_name = "";
-                if (isset($column[0])) {
-                    $company_name = $column[0];
-                }
+                // $company_name = "";
+                // if (isset($column[0])) {
+                //     $company_name = $column[0];
+                // }
                 $company_code = "";
-                if (isset($column[1])) {
-                    $company_code = $column[1];
+                if (isset($column[0])) {
+                    $company_code = $column[0];
                 }
                 $staff_number = "";
-                if (isset($column[2])) {
-                    $staff_number = $column[2];
+                if (isset($column[1])) {
+                    $staff_number = $this->onAddZeroMark($column[1]);
                 }
                 $deploy = "";
-                if (isset($column[3])) {
-                    $deploy = $column[3];
+                if (isset($column[2])) {
+                    $deploy = $column[2];
                 }
 
                 $first_name = "";
-                if (isset($column[4])) {
-                    $first_name = $column[4];
+                if (isset($column[3])) {
+                    $first_name = $column[3];
                 }
 
                 $last_name = "";
-                if (isset($column[5])) {
-                    $last_name = $column[5];
+                if (isset($column[4])) {
+                    $last_name = $column[4];
                 }
 
                 $gender = "";
-                if (isset($column[6])) {
-                    $gender = $column[6];
+                if (isset($column[5])) {
+                    $gender = $column[5];
                 }
 
                 $birth_year = "";
-                if (isset($column[7])) {
-                    $birth_year = $column[7];
+                if (isset($column[6])) {
+                    $birth_year = $column[6];
                 }
 
                 $birth_month = "";
-                if (isset($column[8])) {
-                    $birth_month = $column[8];
+                if (isset($column[7])) {
+                    $birth_month = $column[7];
                 }
 
                 $birth_day = "";
-                if (isset($column[9])) {
-                    $birth_day = $column[9];
+                if (isset($column[8])) {
+                    $birth_day = $column[8];
                 }
 
                 $email = "";
-                if (isset($column[10])) {
-                    $email = $column[10];
+                if (isset($column[9])) {
+                    $email = $column[9];
                 }
 
                 $password = "";
-                if (isset($column[11])) {
-                    $password = $column[11];
+                if (isset($column[10])) {
+                    $password = $column[10];
+                }
+
+                $height = "";
+                if(isset($column[11])){
+                    $height = $column[11];
+                }
+
+                $weight = "";
+                if(isset($column[12])){
+                    $weight = $column[12];
+                }
+
+                $blood_type = "";
+                if(isset($column[13])){
+                    $blood_type = $column[13];
+                }
+
+                $bmi = "";
+                if(isset($column[14])){
+                    $bmi = $column[14];
+                }
+
+                $body_hole = "";
+                if(isset($column[15])){
+                    $body_hole = $column[15];
+                }
+
+                $blood_pressure_over = "";
+                if(isset($column[16])){
+                    $blood_pressure_over = $column[16];
+                }
+
+                $blood_pressure_down = "";
+                if(isset($column[17])){
+                    $blood_pressure_down = $column[17];
+                }
+
+                $tp = "";
+                if(isset($column[18])){
+                    $tp = $column[18];
+                }
+
+                $alb = "";
+                if(isset($column[19])){
+                    $body_hole = $column[19];
+                }
+
+                $ast = "";
+                if(isset($column[20])){
+                    $ast = $column[20];
+                }
+
+                $alt = "";
+                if(isset($column[21])){
+                    $alt = $column[21];
+                }
+
+                $gtp = "";
+                if(isset($column[22])){
+                    $gtp = $column[22];
+                }
+
+                $tc = "";
+                if(isset($column[23])){
+                    $tc = $column[23];
+                }
+
+                $hdl = "";
+                if(isset($column[24])){
+                    $hdl = $column[24];
+                }
+
+                $ldl = "";
+                if(isset($column[25])){
+                    $ldl = $column[25];
+                }
+
+                $tg = "";
+                if(isset($column[26])){
+                    $tg = $column[26];
+                }
+
+                $bun = "";
+                if(isset($column[27])){
+                    $bun = $column[27];
+                }
+
+                $cre = "";
+                if(isset($column[28])){
+                    $cre = $column[28];
+                }
+
+                $ua = "";
+                if(isset($column[29])){
+                    $ua = $column[29];
+                }
+
+                $glu = "";
+                if(isset($column[30])){
+                    $glu = $column[30];
+                }
+
+                $hba1c = "";
+                if(isset($column[31])){
+                    $hba1c = $column[31];
+                }
+
+                $sight_left = "";
+                if(isset($column[32])){
+                    $sight_left = $column[32];
+                }
+
+                $sight_right = "";
+                if(isset($column[33])){
+                    $sight_right = $column[33];
                 }
 
                 $d = strtotime("now");
                 $date = date("Y-m-d h:i:s", $d);
 
                 if($cnt != 0){
-                    $paramArray[$nn++] = array(
-                        'company_name'  => $company_name,
-                        'company_code'  =>$company_code,
-                        'staff_number'  =>$staff_number,
-                        'deploy'        => $deploy,
-                        'first_name'    =>$first_name,
-                        'last_name'     =>$last_name,
-                        'gender'        =>$gender,
-                        'birth_year'    => $birth_year,
-                        'birth_month'   => $birth_month,
-                        'birth_day'     => $birth_day,
-                        'email'         => $email,
-                        'password'      => $password,
-                    );
+
+                    $data = Staff::where('staff_number', $staff_number)->where('company_code', $company_code)->first();
+                    if(!$data){
+
+                        // $paramArray[$nn++] = array(
+                        //     'point'             => 0,
+                        //     'company_code'      => $company_code,
+                        //     'staff_number'      => $staff_number,
+                        //     'deploy'            => $deploy,
+                        //     'first_name'        => $first_name,
+                        //     'last_name'         => $last_name,
+                        //     'gender'            => $gender,
+                        //     'birth_year'        => $birth_year,
+                        //     'birth_month'       => $birth_month,
+                        //     'birth_day'         => $birth_day,
+                        //     'email'             => $email,
+                        //     'password'          => $password,
+                        //     'company_name'      => $company_name->company_name,
+                        //     'final_login_date'  => $date
+                        // );
+
+                        Staff::create([
+                            'company_code'          => $company_code,
+                            'staff_number'          => $staff_number,
+                            'deploy'                => $deploy,
+                            'first_name'            => $first_name,
+                            'last_name'             => $last_name,
+                            'gender'                => $gender,
+                            'birth_year'            => $birth_year,
+                            'birth_month'           => $birth_month,
+                            'birth_day'             => $birth_day,
+                            'email'                 => $email,
+                            'password'              => $password,
+                            'final_login_date'      => $date,
+                        ]);
+
+                        $paramArray[$num] = Staff::where('company_code', $company_code)->where('staff_number', $staff_number)->first();
+
+                        $company_name = Client::where('company_code', $company_code)->first('company_name');
+                        $paramArray[$num]['point'] = 0;
+                        $paramArray[$num]['company_name'] = $company_name->company_name;
+
+                    }
+
+                    $health_v = Health::where('staff_number', $staff_number)->where('company_code', $company_code)->first();
+                    if(!$health_v){
+                        Health::create([
+                            'company_code'          => $company_code,
+                            'staff_number'          => $staff_number,
+                            'height'                => $height,
+                            'weight'                => $weight,
+                            'blood_type'            => $blood_type,
+                            'bmi'                   => $bmi,
+                            'body_hole'             => $body_hole,
+                            'blood_pressure_over'   => $blood_pressure_over,
+                            'blood_pressure_down'   => $blood_pressure_down,
+                            'tp'                    => $tp,
+                            'alb'                   => $alb,
+                            'ast'                   => $ast,
+                            'alt'                   => $alt,
+                            'gtp'                   => $gtp,
+                            'tc'                    => $tc,
+                            'hdl'                   => $hdl,
+                            'ldl'                   => $ldl,
+                            'tg'                    => $tg,
+                            'bun'                   => $bun,
+                            'cre'                   => $cre,
+                            'ua'                    => $ua,
+                            'glu'                   => $glu,
+                            'hba1c'                 => $hba1c,
+                            'sight_left'            => $sight_left,
+                            'sight_right'           => $sight_right,
+                        ]);
+                    }
+                    $num++;
                 }
                 $cnt++;
             }
+
+
+
             return response()->json(array("data" => $paramArray));
         }
     }
@@ -632,7 +822,7 @@ class StaffController extends Controller
                         $linedata = array(
                             $item['company_code'],
                             $item['staff_number'],
-                            $item['deploy'] == null ? '123' : $item['deploy'],
+                            $item['deploy'] == null ? '' : $item['deploy'],
                             $item['first_name'],
                             $item['last_name'],
                             $item['gender'],
@@ -1027,11 +1217,18 @@ class StaffController extends Controller
             $logo = Client::where('company_code', $_SESSION['company_code'])->first('logo_url');
             $result = Staff::where('id', $_SESSION['userID'])->first();
             $kokoro = Kokoro::where('id', $id)->first();
+            $related = Kokoro::where('type', $kokoro['type'])->orderBy('updated_at')->limit(4)->get();
+
+            foreach($related as $item){
+                $item->content = substr($item->content, 0, 30);
+            }
+
             return view('well_pedia.user.pages.kokoro_solution', [
                     'page_title' => $page_title,
                     'logo'       => $logo,
                     'result'     => $result,
                     'kokoro'     => $kokoro,
+                    'related'    => $related,
             ]);
         } else {
             return redirect()->route('toUserLogin')->with('error-message', "最初にログインする必要があります。");

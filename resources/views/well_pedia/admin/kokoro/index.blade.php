@@ -17,6 +17,11 @@
                         <b>{{ Session::get('success-message') }}</b>
                     </div>
                 @endif
+                @if(Session::has('error-message'))
+                    <div class="alert alert-danger text-center">
+                        <b>{{ Session::get('error-message') }}</b>
+                    </div>
+                @endif
                 <div class="section_body">
                     <div class="staff_list_table_wrapper mb_foot">
                         <div class="table_header_wrapper mb-1_4">
@@ -92,7 +97,7 @@
                                                     <a href="{{ route('toAdminKokoroEdit', ['id' => $item->id]) }}">{{ $item->title }}</a>
                                                 </td>
                                                 <td>
-                                                    {{ $item->type }}
+                                                    {{ $item->name }}
                                                 </td>
                                                 <td>
                                                     {{ $item->date }}

@@ -88,91 +88,29 @@
             <div class="section_container container_left_helper container_right_helper">
                 <div class="kokoro_card_wrapper">
                     <div class="row g-5">
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="col_wrapper card_wrapper">
-                                <div class="card_title">
-                                </div>
-                                <div class="card_body">
-                                    <span class="card_date">2022年02月08日</span>
-                                    <h6>
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </h6>
-                                    <p class="paragraph">
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </p>
-
-                                    <div class="card_footer">
-                                        <a href="#" class="btn_read_more">
-                                            READ MORE
-                                        </a>
+                        @foreach($related as $item)
+                            <div class="col-sm-6 col-lg-4 col-xl-3">
+                                <div class="col_wrapper card_wrapper">
+                                    <div class="card_title">
                                     </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="col_wrapper card_wrapper">
-                                <div class="card_title">
-                                </div>
-                                <div class="card_body">
-                                    <span class="card_date">2022年02月08日</span>
-                                    <h6>
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </h6>
-                                    <p class="paragraph">
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </p>
-                                    <div class="card_footer">
-                                        <a href="#" class="btn_read_more">
-                                            READ MORE
-                                        </a>
+                                    <div class="card_body">
+                                        <span class="card_date">{{$item->date}}</span>
+                                        <h6>
+                                            {{$item->title}}
+                                        </h6>
+                                        <p class="paragraph">
+                                            {!! $item->content !!}
+                                        </p>
+                                        <div class="card_footer">
+                                            <a href="{{ route('toKokoroSolution', ['id' => $item->id]) }}" class="btn_read_more">
+                                                READ MORE
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="col_wrapper card_wrapper">
-                                <div class="card_title">
-                                </div>
-                                <div class="card_body">
-                                    <span class="card_date">2022年02月08日</span>
-                                    <h6>
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </h6>
-                                    <p class="paragraph">
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </p>
-                                    <div class="card_footer">
-                                        <a href="#" class="btn_read_more">
-                                            READ MORE
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-4 col-xl-3">
-                            <div class="col_wrapper card_wrapper">
-                                <div class="card_title">
-                                </div>
-                                <div class="card_body">
-                                    <span class="card_date">2022年02月08日</span>
-                                    <h6>
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </h6>
-                                    <p class="paragraph">
-                                        コラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトルコラムタイトル…
-                                    </p>
-                                    <div class="card_footer">
-                                        <a href="#" class="btn_read_more">
-                                            READ MORE
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="row">

@@ -369,10 +369,10 @@ class ClientController extends Controller
 
     public function onDeleteCheckedStaff(Request $request){
         for($i = 0; $i < count($request->ids); $i++){
-            Staff::where('id',  $request->ids[$i])
-                ->delete();
-            VideoHistory::where('staff_number', $request->ids[$i])
-                ->delete();
+            $health = Staff::where('id', $request->ids[$i])->first();
+            Health::where('staff_number', $health['staff_number'])->where('company_code', $health['company_code'])->delete();
+            Staff::where('id', $request->ids[$i])->delete();
+            VideoHistory::where('staff_number', $request->ids[$i])->delete();
         }
     }
 

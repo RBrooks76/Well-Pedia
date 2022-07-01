@@ -172,13 +172,23 @@
                                     </li>
                                 </ul>
                             </div>
-                            <form class="content_footer" action="{{ route('onDownloadCSV') }}" method="post" class="">
-                                @csrf
-                                {{-- <button class="btn_primary min_sizer" onclick="onDownloadCSV()"> --}}
-                                <button class="btn_primary min_sizer">
-                                    インポートを実行する
-                                </button>
-                            </form>
+                            <div style="display : flex">
+                                <form class="content_footer" action="{{ route('onDownloadCSV') }}" method="post" class="" style="margin-left : 10px">
+                                    @csrf
+                                    {{-- <button class="btn_primary min_sizer" onclick="onDownloadCSV()"> --}}
+                                    <button class="btn_primary min_sizer">
+                                        エクスポートを実行します
+                                    </button>
+                                </form>
+                                <div style="width:20px"></div>
+                                <div class="content_footer" action="{{ route('onDownloadCSV') }}" method="post" class="">
+                                    @csrf
+                                    {{-- <button class="btn_primary min_sizer" onclick="onDownloadCSV()"> --}}
+                                    <button class="btn_primary min_sizer" onclick="onUploadCSV()">
+                                        インポートを実行する
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -229,7 +239,7 @@
                         </div>
                         <div class="table_body_wrapper">
                             <div class="table-responsive">
-                                <table class="table staff_table">
+                                <table class="table staff_table" id="tablelist">
                                     <thead>
                                         <tr class="rows_1">
                                             {{-- <th rowspan="2"></th> --}}
@@ -351,11 +361,11 @@
                             }
                             $.ajax({
                                 type : 'POST',
-                                url : "{{ route('onDeleteCheckedStaff') }}",
+                                url : "{{ route('onAdminDeleteCheckedStaff') }}",
                                 data : {
                                     ids : ids
                                 },
-                                success:function(){
+                                success:function(result){
                                     for(var j = 0; j < cnt; j++){
                                         $("input[type=checkbox]:checked").parents('tr').hide();
                                     }
@@ -368,6 +378,14 @@
                     },
                 }
             });
+        }
+
+        function addZeroMark(item){
+            var zero = '';
+            for(var i = 0; i < 8 - item.length; i++ ){
+                zero += '0';
+            }
+            return zero + item;
         }
 
         function onSearch(){
@@ -397,7 +415,8 @@
                                         `<td class="date_col">` + result['data'][i]['final_login_date'] +`</td>`+
                                     `</tr>`;
                     }
-                    $('#tbody').html(html);
+
+                    $('#tbody').append(html);
                 }
             })
         }
@@ -411,7 +430,7 @@
                     $('#keyword').val('');
                     var html = '';
                     for(var i = 0; i < result['data'].length; i++){
-                            html +=   `<tr>`+
+                            html += `<tr>`+
                                         `<td>`+
                                             `<input type="checkbox" name="" id="`+ result['data'][i]['id'] +`">`+
                                         `</td>`+
@@ -445,16 +464,48 @@
 
                 // AJAX request
                 $.ajax({
-                    url: "{{ route('onAdminStaffCSVUpload') }}",
+                    url: "{{ route('onAdmiStaffRegisterUploadCSV') }}",
                     method: 'post',
                     data: fd,
                     contentType: false,
                     processData: false,
                     dataType: 'json',
                     success: function(result) {
-                        console.log(result);
                         if(!result['error']){
-                            var html = '';
+                            var html = `<thead>`+
+                                            `<tr class="rows_1">`+
+                                                `<th rowspan="2">`+
+                                                    `<input type="checkbox" name="" id="selectAll">`+
+                                                `</th>`+
+                                                `<th rowspan="2">`+
+                                                    `ポイント`+
+                                                `</th>`+
+                                                `<th colspan="2">`+
+                                                    `スタッフ情報`+
+                                                `</th>`+
+                                                `<th colspan="2">`+
+                                                    `所属`+
+                                                `</th>`+
+                                                `<th rowspan="2">`+
+                                                    `最終ログイン`+
+                                                `</th>`+
+                                            `</tr>`+
+                                            `<tr class="rows_2">`+
+                                                `<th>`+
+                                                   `社員番号`+
+                                                `</th>`+
+                                                `<th>`+
+                                                    `名前`+
+                                                `</th>`+
+                                                `<th>`+
+                                                    `社名`+
+                                                `</th>`+
+                                                `<th>`+
+                                                    `部署`+
+                                                `</th>`+
+                                            `</tr>`+
+                                        `</thead><tbody>`;
+
                             for(var i = 0; i < result['data'].length; i++){
                                 html +=   `<tr>`+
                                             `<td>`+
@@ -473,7 +524,9 @@
                                             `<td class="date_col">` + result['data'][i]['final_login_date'] +`</td>`+
                                         `</tr>`;
                             }
-                            $('#tbody').html(html);
+
+                            html += '</tbody>';
+                            $('#tablelist').html(html);
                         } else {
                             toastr.error(result['error']);
                         }
@@ -483,18 +536,6 @@
             }
         }
 
-        function onDownloadCSV(){
-            $.ajax({
-                url: "{{ route('onDownloadCSV') }}",
-                type : "POST",
-                data : {
-
-                },
-                success:function(result){
-                    toastr.success("SUCCESS!");
-                }
-            })
-        }
     </script>
     @include('well_pedia.admin.layout.after_login.footer')
 @endsection('content')

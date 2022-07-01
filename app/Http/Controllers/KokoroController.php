@@ -22,12 +22,29 @@ class KokoroController extends Controller
         'priority.digits'       => '優先順位は数字でなければなりません。',
     ];
 
+     // Customize Pagination with SQL Query
+     public function paginateArray($data, $perPage = 10) {
+        $page = Paginator::resolveCurrentPage();
+        $total = count($data);
+        $results = array_slice($data, ($page - 1) * $perPage, $perPage);
+
+        return new LengthAwarePaginator($results, $total, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+        ]);
+    }
+
 /////////////////////////////////// Admin ///////////////////////////////////
     // The First List Page
     public function index(Request $request){
         $page_title = "KOKORO";
         if(isset($_SESSION['isAuthentication'])){
-            $result = Kokoro::orderBy('created_at', 'DESC')->paginate(8);
+            $query =    "SELECT a.*, b.`name`
+                        FROM tbl_kokoro as a
+                        LEFT JOIN tbl_kokoro_type as b
+                        ON a.type = b.priority";
+
+            $result = $this->paginateArray(DB::select($query));
+
             return view('well_pedia.admin.kokoro.index', [
                 'page_title'    => $page_title,
                 'kokoros'       => $result,
@@ -116,6 +133,8 @@ class KokoroController extends Controller
             'content'   => 'required|min:10|max:1000',
         ], $this->message);
 
+        if(!$request->type) return redirect()->route('toAdminKokoro')->with('error-message', 'タイプを入れる必要があります。');
+
         $year = date('Y');
         $month = date('m');
         $day = date('d');
@@ -186,23 +205,22 @@ class KokoroController extends Controller
 
     public function onAdminAddKokoroType(Request $request){
         $valid = $request->validate([
-            'name'      => 'required|alpha_num',
+            'name'      => 'required',
             'priority'  => 'required|digits_between:1,3'
         ], $this->message);
 
-        $confirm = Kokoro_type::where('priority', $valid['priority'])
-                                ->first();
+        $confirm = Kokoro_type::where('priority', $valid['priority'])->first();
 
         if(!isset($confirm)){
             Kokoro_type::create([
                 'name'      => $valid['name'],
-                'priority'  => $valid['priority'] + 2
+                'priority'  => $valid['priority']
             ]);
         } else {
-            return redirect()->route('toAdminAddKokoroType')->with('sucess-message', 'すでに同じ優先順位があります。');
+            return redirect()->route('toAdminAddKokoroType')->with('error-message', 'すでに同じ優先順位があります。');
         }
 
-        return redirect()->route('toAdminAddKokoroType')->with('message', "新しいタイプを正確に追加します。");
+        return redirect()->route('toAdminAddKokoroType')->with('success-message', "新しいタイプを正確に追加します。");
     }
 
     public function onAdminDeleteKokoroType(Request $request){

@@ -97,7 +97,7 @@
                                             <span class="error">{{ $errors->first('content') }}</span>
                                         @endif
                                         <div class="form-group">
-                                            <textarea class="form-control textarea_height" name="content" style="{{ $errors->has('content') ? 'border : 1px solid #D9214E!important;' : '' }}">{!! $kokoro->content !!}</textarea>
+                                            <textarea class="form-control textarea_height" name="content" style="{{ $errors->has('content') ? 'border : 1px solid #D9214E!important;' : '' }}">{{ str_replace('<br />', '', $kokoro->content) }}</textarea>
                                         </div>
                                     </td>
                                 </tr>
