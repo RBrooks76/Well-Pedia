@@ -3,7 +3,7 @@
     @include('well_pedia.admin.layout.after_login.navbar')
 
     <main>
-        <section>
+        {{-- <section>
             <div class="csv_content_wrapper">
                 <div class="section_container container_left_helper container_right_helper">
                     <div class="section_title section_title_sub title_sub_140  title_padding ">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> --}}
         <section>
             <div class="section_container container_left_helper container_right_helper">
                 <div class="section_title section_title_sub section_title_mb title_padding title_border_bottom">
